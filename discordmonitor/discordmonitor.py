@@ -11,14 +11,12 @@ class DiscordMonitor:
     def __init__(self):
         logger.info("init discord monitor")
 
-    async def start(self):
-        gather_result = await asyncio.gather(
-            self.start_new_dc_connection(
-                TOE_TOKEN, "TOE_TOKEN_NAME")
-        )
-        logger.info(f'{gather_result}')
+    def start(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.start_new_dc_connection(TOE_TOKEN, "TOE_TOKEN_NAME"))
 
-    async def start_new_dc_connection(self, token: str, token_name: str, connect_times = 0):
+
+    async def start_new_dc_connection(self, token: str, token_name: str, connect_times=0):
         logger.info("start_new_dc_connection")
         if connect_times >= 100:
             return f"connect {token_name} error"
@@ -36,13 +34,13 @@ class DiscordMonitor:
 
     async def keep_connection(self, token: str, token_name: str, connect_times, ws):
         await asyncio.sleep(10)
-        keep_times = 0;
+        keep_times = 0
         while True:
             try:
                 logger.debug(f"{token_name} keep connection :{keep_times}")
                 await ws.send_str('{"op":1,"d":3}')
                 await asyncio.sleep(41.25)
-                keep_times+=1
+                keep_times += 1
             except Exception as e:
                 await asyncio.sleep(5)
                 await ws.close()
@@ -52,6 +50,8 @@ class DiscordMonitor:
     async def dispatch(self, token: str, token_name: str, ws):
         while True:
             dc_response = await ws.receive()
+            logger.info(f"{dc_response}")
+
             dc_response = json.loads(dc_response.data).get('d', False)
             logger.info(f"{dc_response}")
 
