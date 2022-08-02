@@ -7,8 +7,8 @@ import asyncio
 
 class OceanWebSocketServer():
     def start(self):
-      WS_HOST = "127.0.0.1"
-      PORT = 8000
+      WS_HOST = "0.0.0.0"
+      PORT = 8080
       app = web.Application()
       app.router.add_get('/', lambda req: self.websocket_handler(req))
       web.run_app(app, host=WS_HOST, port=PORT)

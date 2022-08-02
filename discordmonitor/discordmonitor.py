@@ -34,11 +34,12 @@ class DiscordMonitor:
 
     async def keep_connection(self, token: str, token_name: str, connect_times, ws):
         await asyncio.sleep(10)
-        keep_times = 0
+        keep_times = 1
         while True:
             try:
-                logger.debug(f"{token_name} keep connection :{keep_times}")
-                await ws.send_str('{"op":1,"d":3}')
+                heartbeat = '''{"op":1,"d":%d}''' % keep_times
+                logger.debug(f"{token_name} keep connection :{heartbeat}")
+                await ws.send_str(heartbeat)
                 await asyncio.sleep(41.25)
                 keep_times += 1
             except Exception as e:
@@ -50,17 +51,17 @@ class DiscordMonitor:
     async def dispatch(self, token: str, token_name: str, ws):
         while True:
             dc_response = await ws.receive()
-            logger.info(f"{dc_response}")
+            logger.debug(f"{dc_response}")
 
             dc_response = json.loads(dc_response.data).get('d', False)
-            logger.info(f"{dc_response}")
+            logger.debug(f"{dc_response}")
 
             dc_response = await ws.receive()
             if dc_response.type == aiohttp.WSMsgType.TEXT:
                 dc_response = json.loads(dc_response.data).get('t', False)
-                logger.info(f"{dc_response}")
+                logger.debug(f"{dc_response}")
 
             dc_response = await ws.receive()
             if dc_response.type == aiohttp.WSMsgType.TEXT:
                 dc_response = json.loads(dc_response.data)
-                logger.info(f"{dc_response}")
+                logger.debug(f"{dc_response}")
