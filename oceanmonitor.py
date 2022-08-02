@@ -13,7 +13,7 @@ class OceanMonitorServer:
 
     def start(self):
       DiscordMonitor().start()
-      OceanWebSocketServer().start()
+      # OceanWebSocketServer().start()
 
       # await asyncio.gather(OceanWebSocketServer(self.loop).start())
       # await asyncio.gather(DiscordMonitor().start(), OceanWebSocketServer().start())
