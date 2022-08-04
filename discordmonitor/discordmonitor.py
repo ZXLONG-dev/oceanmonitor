@@ -5,7 +5,7 @@ import json
 from loguru import logger
 
 from discordmonitor.channel_token import *
-
+from discordmonitor.channelconfig import *
 
 class DiscordMonitor:
     def __init__(self):
@@ -44,7 +44,7 @@ class DiscordMonitor:
                     raise Exception("max_keep_times")
 
                 heartbeat = '''{"op":1,"d":%d}''' % self.keep_times
-                logger.debug(f"{token_name} keep connection :{heartbeat}")
+                logger.debug(f"{token_name} keep connection :{heartbeat}, keep_times: {self.keep_times}")
                 await ws.send_str(heartbeat)
                 await asyncio.sleep(41.25)
                 self.keep_times += 1
@@ -52,7 +52,7 @@ class DiscordMonitor:
                 logger.error(f"{token_name} keep connection error :{e}")
                 await asyncio.sleep(5)
                 await ws.close()
-                return 
+                return
 
     async def dispatch(self, token: str, token_name: str, ws):
         # 鉴权结果
@@ -76,6 +76,11 @@ class DiscordMonitor:
                 return 
 
             dc_response = json.loads(dc_response.data)
-            if dc_response.get('t') == 'MESSAGE_CREATE':
-                dc_response = dc_response['d']
-                logger.debug(f'{dc_response}')
+            if dc_response.get('t') != 'MESSAGE_CREATE':
+                continue
+
+            dc_response = dc_response['d']
+            if channelconfig_instance.check_channelid(dc_response.get('channel_id')) == False:
+                continue
+
+            logger.debug(f'{dc_response}')
