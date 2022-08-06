@@ -83,4 +83,4 @@ class DiscordMonitor:
             if channelconfig_instance.check_channelid(dc_response.get('channel_id')) == False:
                 continue
 
-            logger.debug(f'{dc_response}')
+            logger.debug(f'{json.dumps(dc_response)}')
