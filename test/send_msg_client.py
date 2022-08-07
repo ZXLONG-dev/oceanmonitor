@@ -5,7 +5,7 @@ import json
 message_id = '1005389494008160308'  # Prism-863023145463578644
 
 target_channel = '863023145463578644'
-token = "ODI1OTA5NDE3ODEwOTg0OTgw.GN8HcB.kM3K6jfEH4SsdaCyB4daiCP-2li5QWDt1uaDGI"
+token = "ODI1OTA5NDE3ODEwOTg0OTgw.GVdNe-.1SE-UdN7EsJCyQZATNqneyQx1h5S9Va4htheho"
 target_channel_webhook = "https://discord.com/api/webhooks/863024970543530014/qgQ3rzuiFtGovmfLVNqmNH969Jf12sqsu6XRg9gh1uPnp4tcwuJb1LN8ZzJEh5Hl9Hlb"
 
 getHeader = {

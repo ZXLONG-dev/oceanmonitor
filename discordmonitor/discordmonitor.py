@@ -1,4 +1,5 @@
 # coding=utf-8
+import imp
 import aiohttp
 import asyncio
 import json
@@ -6,12 +7,17 @@ from loguru import logger
 
 from discordmonitor.channel_token import *
 from discordmonitor.channelconfig import *
+from template.messagelistener import *
+from template.messagehandle import *
+import template
+
 
 class DiscordMonitor:
     def __init__(self):
         logger.info("init discord monitor")
         self.keep_times = 1
         self.max_keep_times = 100
+        template.init_app()
 
     def start(self):
         loop = asyncio.get_event_loop()
@@ -64,7 +70,7 @@ class DiscordMonitor:
         dc_response = await ws.receive()
         if dc_response.type != aiohttp.WSMsgType.TEXT or json.loads(dc_response.data).get('t') == None:
             logger.error(f"{dc_response}")
-            return 
+            return
 
         while True:
             if self.keep_times >= self.max_keep_times:
@@ -73,7 +79,7 @@ class DiscordMonitor:
             dc_response = await ws.receive()
             if dc_response.type != aiohttp.WSMsgType.TEXT:
                 logger.error(f"{dc_response} exception= {ws.exception()}")
-                return 
+                return
 
             dc_response = json.loads(dc_response.data)
             if dc_response.get('t') != 'MESSAGE_CREATE':
@@ -83,4 +89,10 @@ class DiscordMonitor:
             if channelconfig_instance.check_channelid(dc_response.get('channel_id')) == False:
                 continue
 
-            logger.debug(f'{json.dumps(dc_response)}')
+            dc_response["web_site_name"] = dc_response["author"]["username"]
+            message_obsever = messagelistener_instance.get_message_instance(dc_response)
+            message_handle = MessageHandle()
+            message_handle.init(message_obsever)
+            await message_handle.add_redis_stream()
+
+            logger.debug(f'{message_handle}')

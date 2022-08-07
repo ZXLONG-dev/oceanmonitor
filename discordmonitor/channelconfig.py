@@ -1,6 +1,4 @@
 import configparser
-from re import I
-import sys
 from discordmonitor.singleton import *
 import os
 
