@@ -4,7 +4,7 @@ from discordmonitor.singleton import *
 
 
 @singleton
-class MessageListener(object):
+class MessageFactory(object):
     def __init__(self):
       self.obsever_list = {}
 
@@ -29,4 +29,4 @@ class MessageListener(object):
       return message_obsever
 
 
-messagelistener_instance = MessageListener()
+messagefactory_instance = MessageFactory()

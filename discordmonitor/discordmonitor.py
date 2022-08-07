@@ -7,9 +7,9 @@ from loguru import logger
 
 from discordmonitor.channel_token import *
 from discordmonitor.channelconfig import *
-from template.messagelistener import *
-from template.messagehandle import *
-import template
+from message.message_factory import *
+from message.message_handle import *
+import message
 
 
 class DiscordMonitor:
@@ -17,7 +17,7 @@ class DiscordMonitor:
         logger.info("init discord monitor")
         self.keep_times = 1
         self.max_keep_times = 100
-        template.init_app()
+        message.init_app()
 
     def start(self):
         loop = asyncio.get_event_loop()
@@ -90,9 +90,9 @@ class DiscordMonitor:
                 continue
 
             dc_response["web_site_name"] = dc_response["author"]["username"]
-            message_obsever = messagelistener_instance.get_message_instance(dc_response)
+            message_obsever = messagefactory_instance.get_message_instance(dc_response)
             message_handle = MessageHandle()
             message_handle.init(message_obsever)
-            await message_handle.add_redis_stream()
+            await message_handle.flow()
 
             logger.debug(f'{message_handle}')
