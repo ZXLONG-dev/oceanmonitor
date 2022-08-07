@@ -23,6 +23,7 @@ class DiscordMonitor:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self.start_new_dc_connection(LONG_TOKEN, "LONG_TOKEN_NAME"))
 
+    @logger.catch
     async def start_new_dc_connection(self, token: str, token_name: str):
         connect_times = 1
         while True:
@@ -42,6 +43,7 @@ class DiscordMonitor:
                     await asyncio.sleep(5)
                     connect_times += 1
 
+    @logger.catch
     async def keep_connection(self, token_name: str, ws):
         await asyncio.sleep(10)
         while True:
@@ -60,6 +62,7 @@ class DiscordMonitor:
                 await ws.close()
                 return
 
+    @logger.catch
     async def dispatch(self, token: str, token_name: str, ws):
         # 鉴权结果
         dc_response = await ws.receive()

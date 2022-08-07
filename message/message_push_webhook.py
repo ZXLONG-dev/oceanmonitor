@@ -10,5 +10,6 @@ class MessagePushWebhook(object):
     def init(self, listener: object):
       self.listener = listener
 
+    @logger.catch
     async def handle(self):
       return None
