@@ -1,6 +1,7 @@
 # coding=utf-8
 from loguru import logger
-from discordmonitor.singleton import *
+from utils.singleton import *
+from utils.oceanlogger import *
 
 
 @singleton

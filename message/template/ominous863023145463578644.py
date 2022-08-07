@@ -1,6 +1,7 @@
 # coding=utf-8
 from loguru import logger
 import json
+from utils.oceanlogger import *
 
 
 class Ominous863023145463578644(object):
@@ -16,4 +17,3 @@ class Ominous863023145463578644(object):
 
     def get_serialize_data(self) -> str:
       return json.dumps(self.source_data)
-

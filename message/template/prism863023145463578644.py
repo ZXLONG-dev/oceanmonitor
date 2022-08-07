@@ -1,6 +1,7 @@
 # coding=utf-8
 from loguru import logger
 import json
+from utils.oceanlogger import *
 
 
 class Prism863023145463578644(object):

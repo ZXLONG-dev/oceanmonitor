@@ -1,5 +1,5 @@
 import configparser
-from discordmonitor.singleton import *
+from utils.singleton import *
 import os
 
 @singleton
