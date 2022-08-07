@@ -6,11 +6,12 @@ import aioredis
 from discordmonitor.monitorserverconfig import *
 from message.message_push_redis import * 
 from message.message_push_webhook import *
+from loguru import logger
 
 class MessageHandle(object):
     def init(self, listener: object):
       self.listener = listener
-
+    
     async def flow(self):
       loop = asyncio.get_event_loop()
 

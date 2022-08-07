@@ -10,6 +10,7 @@ class MessagePushRedis(object):
     def init(self, listener: object):
       self.listener = listener
 
+    @logger.catch
     async def handle(self):
       redis = aioredis.from_url(monitorserverconfig_instance.get_auth_token())
       stream_dict = {self.listener.message_id: self.listener.get_serialize_data()}

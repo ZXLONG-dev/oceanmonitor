@@ -11,6 +11,7 @@ class MessageFactory(object):
     def add_observer(self, unique_key: str, msg_observer: object):
       self.obsever_list.update({unique_key: msg_observer})
 
+    @logger.catch
     def get_message_instance(self, msg_source: dict):
       if msg_source.get('channel_id') == None:
         logger.error(f"dict get channel_id error {msg_source}")
