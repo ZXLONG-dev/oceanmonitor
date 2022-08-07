@@ -1,7 +1,6 @@
 # coding=utf-8
 from discordmonitor.discordmonitor import DiscordMonitor
 from utils.oceanlogger import OceanLogger
-from loguru import logger
 
 
 class Server:
