@@ -19,5 +19,4 @@ class MonitorServerConfig(object):
     def get_auth_token(self) -> str:
         return self.get_config_item("Redis", "auth_token")
 
-
 monitorserverconfig_instance = MonitorServerConfig()

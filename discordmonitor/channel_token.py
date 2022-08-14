@@ -1,6 +1,6 @@
 # coding=utf-8
 
-LONG_TOKEN = 'ODI1OTA5NDE3ODEwOTg0OTgw.G8mxiv.XckblExGe5EfySpyctIgV-u4uxOrjsoWk7ovKM'  # long
+LONG_TOKEN = 'ODI1OTA5NDE3ODEwOTg0OTgw.Gh8QOS.ZyPeftlK49LUrUYuJ1_Mgn2uyCvrP30pWs_hyc'  # long
 
 def get_dc_identify_info(token: str) -> str:
   auth_info = '''

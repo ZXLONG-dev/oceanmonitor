@@ -2,6 +2,9 @@
 from loguru import logger
 from utils.singleton import *
 from utils.oceanlogger import *
+from message.template.message_obsever import *
+from message.template.ominous863023145463578644 import *
+from message.template.prism863023145463578644 import *
 
 
 @singleton
@@ -9,11 +12,8 @@ class MessageFactory(object):
     def __init__(self):
       self.obsever_list = {}
 
-    def add_observer(self, unique_key: str, msg_observer: object):
-      self.obsever_list.update({unique_key: msg_observer})
-
     @logger.catch
-    def get_message_instance(self, msg_source: dict):
+    def get_message_instance(self, msg_source: dict) -> MessageObsever:
       if msg_source.get('channel_id') == None:
         logger.error(f"dict get channel_id error {msg_source}")
         return None
@@ -22,11 +22,15 @@ class MessageFactory(object):
         return None
 
       unique_key = msg_source.get('web_site_name') + msg_source.get('channel_id')
-      logger.info(f"unique_key={unique_key}")
+      if unique_key == 'Ominous863023145463578644':
+        message_obsever = Ominous863023145463578644()
+      elif unique_key == 'Prism863023145463578644':
+        message_obsever = Prism863023145463578644()
+      else:
+        logger.error(f"unique_key={unique_key} | msg_source={msg_source}")
+        return None
 
-      message_obsever = self.obsever_list.get(unique_key)
       message_obsever.init(msg_source)
-
       logger.info(f"message_obsever={message_obsever}")
       return message_obsever
 

@@ -17,7 +17,6 @@ class DiscordMonitor:
         logger.info("init discord monitor")
         self.keep_times = 1
         self.max_keep_times = 100
-        message.init_app()
 
     def start(self):
         loop = asyncio.get_event_loop()
@@ -97,5 +96,3 @@ class DiscordMonitor:
             message_handle = MessageHandle()
             message_handle.init(message_obsever)
             await message_handle.flow()
-
-            logger.debug(f'{message_handle}')
